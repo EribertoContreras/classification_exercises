@@ -1,5 +1,18 @@
-import env
+from cgi import test
+import numpy as np
+import seaborn as sns
+import scipy.stats as stats
 import pandas as pd
+import matplotlib.pyplot as plt
+import env
+from pydataset import data
+import scipy
+import os
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+import warnings
+warnings.filterwarnings('ignore')
+
 def get_connection(db, user=env.user, host=env.host, password=env.password):
     return f'mysql+pymysql://{user}:{password}@{host}/{db}'
 def get_titanic_data():
@@ -19,7 +32,6 @@ JOIN customer_subscriptions USING(customer_id)
 , get_connection('telco_churn'))
 
 
-import os
 
 def get_titanic_data():
     filename = "titanic.csv"
@@ -36,6 +48,7 @@ def get_titanic_data():
         # Return the dataframe to the calling code
         return df  
 
+
 def get_iris_data():
     filename = "iris.csv"
 
@@ -51,6 +64,34 @@ def get_iris_data():
 
         # Return the dataframe to the calling code
         return df  
+
+train, test = train_test_split(df, test_size=.2, random_state=123, stratify=df.species_name)
+train, validate = train_test_split(train, test_size=.3, random_state=123, stratify=train.species_name)
+
+# Validate my split.
+
+print(f'train -> {train.shape}')
+print(f'validate -> {validate.shape}')
+print(f'test -> {test.shape}')
+
+def split_iris_data(df):
+    '''
+    take in a DataFrame and return train, validate, and test DataFrames; stratify on survived.
+    return train, validate, test DataFrames.
+    '''
+    train_validate, test = train_test_split(df, test_size=.2, random_state=123, stratify=df.species_name)
+    train, validate = train_test_split(train_validate, 
+                                       test_size=.3, 
+                                       random_state=123, 
+                                       stratify=train_validate.species_name)
+    return train, validate, test
+
+
+imputer = SimpleImputer(missing_values = None, strategy='most_frequent')
+
+
+
+
 
 def get_telco_data():
     filename = "telco.csv"
