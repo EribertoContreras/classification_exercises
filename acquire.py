@@ -65,14 +65,14 @@ def get_iris_data():
         # Return the dataframe to the calling code
         return df  
 
-train, test = train_test_split(df, test_size=.2, random_state=123, stratify=df.species_name)
-train, validate = train_test_split(train, test_size=.3, random_state=123, stratify=train.species_name)
+#train, test = train_test_split(df, test_size=.2, random_state=123, stratify=df.species_name)
+#train, validate = train_test_split(train, test_size=.3, random_state=123, stratify=train.species_name)
 
 # Validate my split.
 
-print(f'train -> {train.shape}')
-print(f'validate -> {validate.shape}')
-print(f'test -> {test.shape}')
+#print(f'train -> {train.shape}')
+#print(f'validate -> {validate.shape}')
+#print(f'test -> {test.shape}')
 
 def split_iris_data(df):
     '''
